@@ -1,4 +1,4 @@
-<svg width="320" height="64" viewBox="0 0 320 64" xmlns="http://www.w3.org/2000/svg">
+<svg width="640" height="128" viewBox="0 0 430 64" xmlns="http://www.w3.org/2000/svg">
   <!-- 草方块图标 -->
   <g transform="translate(10, 10) scale(4)">
     <!-- 泥土 -->
@@ -11,12 +11,12 @@
   </g>
 
   <!-- 文字: SDUcraft -->
-  <text x="60" y="42" font-family="'Courier New', Courier, monospace" font-weight="900" font-size="32" fill="#333" letter-spacing="-1">
+  <text x="60" y="42" font-family="'Courier New', Courier, monospace" font-weight="900" font-size="50" fill="#333" letter-spacing="-1">
     SDU<tspan fill="#4CAF50">craft</tspan>
   </text>
   
   <!-- 文字: docs -->
-  <text x="262" y="43" font-family="'Courier New', Courier, monospace" font-weight="bold" font-size="32" fill="#555" text-anchor="middle">
+  <text x="360" y="43" font-family="'Courier New', Courier, monospace" font-weight="bold" font-size="50" fill="#555" text-anchor="middle">
     DOCS
   </text>
 </svg>
