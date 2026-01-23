@@ -1,7 +1,7 @@
 # MCSM 服务端部署指南
 
 ## 1.1 新建实例 (仅管理员)
-> **注意**：非管理员用户请跳过此步，直接查收已分配的实例。 [1.2环境配置 (Docker)](http://localhost:63342/SDUcraft-docs/index.html#/./docs/server_arch/env_cfg/mcsm/mcsm?id=_12-%e7%8e%af%e5%a2%83%e9%85%8d%e7%bd%ae-docker)
+> **注意**：非管理员用户请跳过此步，直接查收已分配的实例。 [1.2环境配置 (Docker)](./docs/server_arch/env_cfg/mcsm/mcsm?id=_12-环境配置-docker)
 
 1.  在【实例管理】中新建一个默认的 Minecraft 服务端实例。
     ![img.png](image/img.png)
@@ -46,7 +46,7 @@
         ![img_13.png](image/img_13.png)
 
 4.  **端口转发 **：
-    *   如果实例部署在青岛 PVE 节点，还需配置网络转发，请联系管理员 [PVE 网络转发配置教程]()。
+    *   如果实例部署在青岛 PVE 节点，还需配置网络转发，请联系管理员 [PVE 网络转发配置教程](./docs/server_arch/env_cfg/pve/网络转发)。
 
 ## 1.5 启动命令配置
 ### 1.5.1 使用 MCDR
