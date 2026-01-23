@@ -30,6 +30,8 @@
 启动一次实例，MCDR 将会自动运行并初始化必要的配置文件和目录结构。
 ![img_8.png](image/img_8.png)
 
+更多有关MCDR使用方法的信息，请参考：[MCDR 官方文档](https://docs.mcdreforged.com/zh-cn/latest/)。
+
 ## 1.4 文件部署与端口配置
 1.  **上传服务端**：
     *   在【文件管理】中上传并解压服务端文件。
@@ -93,3 +95,8 @@ java ${JAVA_ARGS} -jar ./fabric-server-mc.1.21.1-loader.0.18.4-launcher.1.1.1.ja
 ### 1.5.2 不使用 MCDR
 直接在 **应用实例设置** 的“启动命令”输入框中填写启动命令。
 ![img_16.png](image/img_16.png)
+
+## 常见问题
+
+- 无法连接到青岛的实例 
+  - 请使用低版本浏览器,chromium142及以前版本
