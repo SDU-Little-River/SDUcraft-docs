@@ -55,6 +55,6 @@ scp -P 20022 graalvm21.tar root@114.514.1.1:/home/root/
 
 4.  **在mcsm中查看镜像上传结果**
 管理面板->节点->镜像管理
-![img_2.png](img_2.png)
-![img_1.png](img_1.png)
+![img_2.png](./image/docker1.png)
+![img_1.png](./image/docker2.png)
 
