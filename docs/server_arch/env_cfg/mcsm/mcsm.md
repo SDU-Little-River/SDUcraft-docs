@@ -1,6 +1,8 @@
+author@xhbsh
+
 # MCSM 服务端部署指南
 
-## 1 新建实例 (仅管理员)
+## 1. 新建实例 (仅管理员)
 > **注意**：非管理员用户请跳过此步，直接查收已分配的实例。 [1.2环境配置 (Docker)](./docs/server_arch/env_cfg/mcsm/mcsm?id=_12-环境配置-docker)
 
 1.  在【实例管理】中新建一个默认的 Minecraft 服务端实例。
@@ -16,7 +18,7 @@
 4.  **分配权限**：创建完成后，在【用户管理】界面将该实例分配给对应用户。
     ![img_3.png](image/img_3.png)
 
-## 2 环境配置 (Docker)
+## 2. 环境配置 (Docker)
 点击进入实例控制台。
 
 1.  前往 **功能组 -> 应用实例设置**。
@@ -101,3 +103,4 @@ java ${JAVA_ARGS} -jar ./fabric-server-mc.1.21.1-loader.0.18.4-launcher.1.1.1.ja
 
 - 无法连接到青岛的实例 
   - 请使用低版本浏览器,chromium142及以前版本
+

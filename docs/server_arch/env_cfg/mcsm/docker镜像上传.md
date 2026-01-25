@@ -1,5 +1,8 @@
+author@xhbsh
+
 # MCSM Docker 镜像导入指南
-## 下载镜像文件
+
+## 1. 下载镜像文件
 > **注意**：请自行准备魔法工具
 > 
 > 服务器 SSH 密码请查阅技术部团队文档
@@ -22,7 +25,7 @@
     docker save -o graalvm21.tar container-registry.oracle.com/graalvm/jdk:21
     ```
 
-## 上传镜像至服务器
+## 2. 上传镜像至服务器
 
 ```{bash}
 # 格式: scp -P <SSH端口> <本地文件> <用户名>@<服务器IP>:<目标路径>

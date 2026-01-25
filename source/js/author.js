@@ -1,0 +1,565 @@
+window.docsifyAuthorSource = window.docsifyAuthorSource || {
+    "example": {
+        name: "Name",
+        avatar: "头像链接",
+        bio: "作者简介",
+        link: "https://github.com/xxx",
+        qq: "12345678",
+        email: "test@example.com",
+        github: "https://github.com/xxx"
+    },
+    "kylaan": {
+        name: "Kylaan",
+        avatar: "https://kylaan.top/_astro/avatar.CMXUbEij_1pATsD.webp",
+        bio: "",
+        link: "https://kylaan.top",
+        qq: "815728683",
+        github:"https://github.com/Kylaan"
+    },
+    "xhbsh": {
+        name: "xhbsh",
+        avatar: "https://www.xhbsh.top/img/xhbsh.png",
+        bio: "",
+        link: "https://www.xhbsh.top",
+        qq: "260342855",
+        email: "260342855@qq.com",
+        github: "https://github.com/SDU-Little-River"
+    }
+
+};
+
+// --- 2. CSS 样式 ---
+var authorCss = `
+/* 触发器通用样式 */
+.author-trigger { cursor: pointer; transition: opacity 0.2s; }
+
+/* 行内 @xxx */
+.author-inline {
+    color: #42b983;
+    font-weight: bold;
+    background: rgba(66, 185, 131, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.author-inline:hover { background: rgba(66, 185, 131, 0.2); }
+
+/* 右上角 author@xxx */
+.author-float-container {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    z-index: 90;
+}
+.author-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    padding: 6px 12px;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+}
+.author-float-btn img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- 全局弹窗样式 --- */
+#author-global-tooltip {
+    position: fixed;
+    display: none;
+    z-index: 999999;
+    background: #fff;
+    width: 250px; /* 稍微加宽一点 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    pointer-events: auto; /* 允许交互 */
+    left: 0;
+    top: 0;
+    font-family: var(--theme-font, sans-serif);
+    transition: opacity 0.2s;
+}
+
+/* 箭头 */
+#author-global-tooltip::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-style: solid;
+}
+#author-global-tooltip.tooltip-top { transform: translateX(-50%) translateY(-100%); margin-top: -12px; }
+#author-global-tooltip.tooltip-top::after { bottom: -6px; top: auto; border-width: 6px 6px 0; border-color: #fff transparent transparent transparent; }
+
+#author-global-tooltip.tooltip-bottom { transform: translateX(-50%) translateY(0); margin-top: 12px; }
+#author-global-tooltip.tooltip-bottom::after { top: -6px; bottom: auto; border-width: 0 6px 6px 6px; border-color: transparent transparent #fff transparent; }
+
+/* 内容区域 */
+#author-global-tooltip img.tooltip-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid #42b983;
+    padding: 2px;
+}
+#author-global-tooltip h4 { margin: 0 0 5px 0; color: #333; font-size: 18px; font-weight: 600; }
+#author-global-tooltip p.tooltip-bio { margin: 0 0 12px 0; color: #666; font-size: 13px; line-height: 1.5; }
+
+/* 主页链接 */
+#author-global-tooltip a.tooltip-link {
+    display: block; /* 独占一行 */
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #42b983;
+    text-decoration: none;
+}
+#author-global-tooltip a.tooltip-link:hover { text-decoration: underline; }
+
+/* --- 联系方式区域 (新增) --- */
+.tooltip-contacts {
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+    background: #f9f9f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.contact-item:hover {
+    background: #42b983;
+    color: white;
+}
+.contact-item svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* 复制成功的提示动画 */
+@keyframes copyFade { 0% { opacity: 1; } 100% { opacity: 0; } }
+.copy-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    animation: copyFade 1s forwards;
+}
+
+/* --- Dark Mode 适配 --- */
+body.docsify-dark-mode .author-inline {
+    background: rgba(66, 185, 131, 0.2);
+    color: #42b983;
+}
+
+body.docsify-dark-mode .author-float-btn {
+    background: #2d2d2d;
+    border-color: #444;
+    color: #bbc0c4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+body.docsify-dark-mode #author-global-tooltip {
+    background: #2d2d2d;
+    border-color: #444;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+body.docsify-dark-mode #author-global-tooltip h4 {
+    color: #eee;
+}
+
+body.docsify-dark-mode #author-global-tooltip p.tooltip-bio {
+    color: #aaa;
+}
+
+body.docsify-dark-mode #author-global-tooltip a.tooltip-link {
+    color: #42b983;
+}
+
+/* 箭头适配 */
+body.docsify-dark-mode #author-global-tooltip.tooltip-top::after {
+    border-top-color: #2d2d2d;
+}
+
+body.docsify-dark-mode #author-global-tooltip.tooltip-bottom::after {
+    border-bottom-color: #2d2d2d;
+}
+
+/* 联系方式适配 */
+body.docsify-dark-mode .tooltip-contacts {
+    border-top-color: #444;
+}
+
+body.docsify-dark-mode .contact-item {
+    background: #3e3e3e;
+    color: #ccc;
+}
+
+body.docsify-dark-mode .contact-item:hover {
+    background: #42b983;
+    color: white;
+}
+
+/* --- 嵌入式卡片容器 (新增，用于横向排列) --- */
+.author-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin: 2em 0;
+}
+
+/* --- 嵌入式卡片样式 (新增) --- */
+.author-card-embedded {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 1.5em auto; /* 默认垂直居中，适合单独使用 */
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.author-card-embedded:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* 在容器内时的样式调整 */
+.author-cards-container .author-card-embedded {
+    margin: 0;
+    height: 100%; /* 等高 */
+    flex: 0 1 300px; /* 弹性宽度 */
+}
+
+.author-card-embedded img.card-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid #42b983;
+    padding: 2px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.author-card-embedded h4 { 
+    margin: 0 0 10px 0 !important; 
+    font-size: 1.3rem !important; 
+    font-weight: 700 !important;
+    color: #333; 
+}
+
+.author-card-embedded p.card-bio { 
+    margin: 0 0 15px 0 !important; 
+    color: #666; 
+    font-size: 14px !important; 
+    line-height: 1.6; 
+}
+
+.author-card-embedded a.card-link { 
+    color: #42b983; 
+    font-size: 14px; 
+    text-decoration: none; 
+    margin-bottom: 20px; 
+    display: inline-block; 
+    font-weight: 500;
+}
+.author-card-embedded a.card-link:hover { text-decoration: underline; }
+
+.author-card-embedded .card-contacts { 
+    display: flex; 
+    gap: 12px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+}
+
+/* 深色模式适配 */
+body.docsify-dark-mode .author-card-embedded {
+    background: #2d2d2d;
+    border-color: #444;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+body.docsify-dark-mode .author-card-embedded h4 { color: #eee; }
+body.docsify-dark-mode .author-card-embedded p.card-bio { color: #aaa; }
+`;
+
+// 注入样式
+var style = document.createElement('style');
+style.textContent = authorCss;
+document.head.appendChild(style);
+
+// --- 3. 辅助功能 (SVG图标与复制逻辑) ---
+
+const ICONS = {
+    qq: `<svg viewBox="0 0 1024 1024"><path d="M824.8 613.2c-16-51.4-34.4-94.6-62.7-165.3C766.5 262.2 689.3 112 511.5 112 331.7 112 256.2 265.2 261 447.9c-28.4 70.8-46.7 113.7-62.7 165.3-34 109.5-23 154.8-14.6 155.8 18 2.2 70.1-82.4 70.1-82.4 0 49 25.2 112.9 79.8 159-26.4 8.1-85.7 29.9-71.6 53.8 11.4 19.3 196.2 12.3 249.5 6.3 53.3 6 238.1 13 249.5-6.3 14.1-23.8-45.3-45.7-71.6-53.8 54.6-46.2 79.8-110.1 79.8-159 0 0 52.1 84.6 70.1 82.4 8.5-1.1 19.5-46.4-14.5-155.8z" /></svg>`,
+    email: `<svg viewBox="0 0 1024 1024"><path d="M128 224v576h768V224H128z m384 346.944L202.944 288h618.112L512 570.944zM192 736V356.544L512 645.696l320-289.152V736H192z"/></svg>`,
+    github: `<svg viewBox="0 0 1024 1024"><path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261 146.688 418.133 350.08 485.76 25.6 4.8 35.093-11.115 35.093-24.64 0-12.16-0.48-52.544-0.704-95.317-142.443 30.976-172.501-60.715-172.501-60.715-23.296-59.2-56.811-74.944-56.811-74.944-46.507-31.787 3.52-31.147 3.52-31.147 51.413 3.627 78.485 52.757 78.485 52.757 45.675 78.293 119.851 55.68 149.12 42.56 4.651-33.109 17.92-55.68 32.555-68.48-113.685-12.928-233.259-56.875-233.259-253.056 0-55.893 19.968-101.632 52.693-137.472-5.291-12.971-22.848-65.067 5.013-135.595 0 0 42.987-13.76 140.8 52.48 40.832-11.392 84.629-17.067 128.256-17.259 43.605 0.213 87.424 5.867 128.32 17.28 97.728-66.304 140.651-52.48 140.651-52.48 27.947 70.528 10.368 122.624 5.12 135.595 32.811 35.84 52.629 81.579 52.629 137.472 0 196.693-119.787 239.979-233.749 252.48 18.432 15.851 34.88 47.168 34.88 95.061 0 68.651-0.64 124.032-0.64 140.928 0 13.696 9.387 29.696 35.392 24.64 203.307-67.755 349.76-259.627 349.76-485.76 0-282.752-229.12-512-512-512z"/></svg>`
+};
+
+// 复制文本到剪贴板并提示
+window.copyToClipboard = function(text, btnElement) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast(btnElement, "已复制 QQ!");
+        });
+    } else {
+        // 降级处理
+        const input = document.createElement('textarea');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        showToast(btnElement, "已复制 QQ!");
+    }
+};
+
+function showToast(parent, msg) {
+    // 避免重复创建
+    if(parent.querySelector('.copy-toast')) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    toast.innerText = msg;
+    parent.style.position = 'relative'; // 确保定位准确
+    parent.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 1000);
+}
+
+
+// --- 4. 核心逻辑 ---
+
+let authorTooltipTimer = null;
+
+function initAuthorTooltip() {
+    if (!document.getElementById('author-global-tooltip')) {
+        const div = document.createElement('div');
+        div.id = 'author-global-tooltip';
+        div.onmouseenter = () => clearTimeout(authorTooltipTimer);
+        div.onmouseleave = () => window.hideAuthorTooltip();
+        document.body.appendChild(div);
+    }
+}
+
+window.showAuthorTooltip = function(element, authorId) {
+    const data = window.docsifyAuthorSource[authorId];
+    if (!data) return;
+    clearTimeout(authorTooltipTimer);
+
+    const tooltip = document.getElementById('author-global-tooltip');
+
+    // 生成联系方式 HTML
+    let contactsHtml = '';
+    let hasContacts = false;
+
+    // QQ 按钮
+    if (data.qq) {
+        hasContacts = true;
+        // onclick 触发复制
+        contactsHtml += `
+            <div class="contact-item" onclick="copyToClipboard('${data.qq}', this)" title="点击复制: ${data.qq}">
+                ${ICONS.qq} <span>QQ</span>
+            </div>
+        `;
+    }
+
+    // Email 按钮
+    if (data.email) {
+        hasContacts = true;
+        contactsHtml += `
+            <a href="mailto:${data.email}" class="contact-item" title="${data.email}">
+                ${ICONS.email} <span>Email</span>
+            </a>
+        `;
+    }
+
+    // GitHub 按钮
+    if (data.github) {
+        hasContacts = true;
+        contactsHtml += `
+            <a href="${data.github}" target="_blank" class="contact-item" title="GitHub">
+                ${ICONS.github} <span>GitHub</span>
+            </a>
+        `;
+    }
+
+    // 包装联系方式容器
+    const contactsSection = hasContacts ? `<div class="tooltip-contacts">${contactsHtml}</div>` : '';
+
+    // 填充内容
+    tooltip.innerHTML = `
+        <img src="${data.avatar}" class="tooltip-avatar">
+        <h4>${data.name}</h4>
+        <p class="tooltip-bio">${data.bio}</p>
+        ${data.link ? `<a href="${data.link}" target="_blank" class="tooltip-link">查看主页 →</a>` : ''}
+        ${contactsSection}
+    `;
+
+    // 显示并定位
+    tooltip.style.display = 'block';
+    tooltip.style.opacity = '1';
+
+    const rect = element.getBoundingClientRect();
+    const tooltipHeight = tooltip.offsetHeight;
+    const left = rect.left + (rect.width / 2);
+
+    if (rect.top > tooltipHeight + 20) {
+        tooltip.className = 'tooltip-top';
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = rect.top + 'px';
+    } else {
+        tooltip.className = 'tooltip-bottom';
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = rect.bottom + 'px';
+    }
+};
+
+window.hideAuthorTooltip = function() {
+    authorTooltipTimer = setTimeout(function() {
+        const tooltip = document.getElementById('author-global-tooltip');
+        if (tooltip) {
+            tooltip.style.opacity = '0';
+            setTimeout(() => {
+                if(tooltip.style.opacity === '0') tooltip.style.display = 'none';
+            }, 200);
+        }
+    }, 200);
+};
+
+// --- 5. Docsify 插件安装 ---
+
+function authorPlugin(hook, vm) {
+    let pageAuthorId = null;
+
+    hook.init(() => initAuthorTooltip());
+
+    // 辅助函数：生成联系方式 HTML
+    const generateContactsHtml = (data) => {
+        let contactsHtml = '';
+        if (data.qq) {
+            contactsHtml += `
+            <div class="contact-item" onclick="copyToClipboard('${data.qq}', this)" title="点击复制: ${data.qq}">
+                ${ICONS.qq} <span>QQ</span>
+            </div>`;
+        }
+        if (data.email) {
+            contactsHtml += `
+            <a href="mailto:${data.email}" class="contact-item" title="${data.email}">
+                ${ICONS.email} <span>Email</span>
+            </a>`;
+        }
+        if (data.github) {
+            contactsHtml += `
+            <a href="${data.github}" target="_blank" class="contact-item" title="GitHub">
+                ${ICONS.github} <span>GitHub</span>
+            </a>`;
+        }
+        return contactsHtml;
+    };
+
+    hook.beforeEach(content => {
+        pageAuthorId = null;
+        const regex = /^author@([a-zA-Z0-9_-]+)\s*/;
+        const match = content.match(regex);
+        if (match) {
+            pageAuthorId = match[1];
+            return content.replace(regex, '');
+        }
+        return content;
+    });
+
+    hook.afterEach(html => {
+        // 1. 处理嵌入式卡片语法: [author-card:id]
+        // 兼容包裹在 HTML 标签中的情况，使用非贪婪匹配
+        html = html.replace(/\[author-card:([a-zA-Z0-9_-]+)\]/g, (match, id) => {
+            const data = window.docsifyAuthorSource[id];
+            if (!data) return `<p style="color:red;text-align:center;">Author '${id}' not found.</p>`;
+
+            const contactsHtml = generateContactsHtml(data);
+
+            return `
+            <div class="author-card-embedded">
+                <img src="${data.avatar}" class="card-avatar" alt="${data.name}">
+                <h4>${data.name}</h4>
+                <p class="card-bio">${data.bio}</p>
+                ${data.link ? `<a href="${data.link}" target="_blank" class="card-link">查看个人主页 &rarr;</a>` : ''}
+                <div class="card-contacts">${contactsHtml}</div>
+            </div>`;
+        });
+
+        const createTrigger = (id, text, isFloat) => {
+            const data = window.docsifyAuthorSource[id];
+            if (!data) return isFloat ? '' : text;
+
+            if (isFloat) {
+                return `
+                <div class="author-float-container">
+                    <div class="author-float-btn author-trigger" 
+                         onmouseenter="showAuthorTooltip(this, '${id}')" 
+                         onmouseleave="hideAuthorTooltip()">
+                        <img src="${data.avatar}">
+                        <span>Created by <strong>${data.name}</strong></span>
+                    </div>
+                </div>`;
+            } else {
+                return `
+                <span class="author-inline author-trigger" 
+                      onmouseenter="showAuthorTooltip(this, '${id}')" 
+                      onmouseleave="hideAuthorTooltip()">
+                    @${data.name}
+                </span>`;
+            }
+        };
+
+        let modifiedHtml = html.replace(/@([a-zA-Z0-9_-]+)/g, (match, id) => {
+            if (window.docsifyAuthorSource[id]) return createTrigger(id, match, false);
+            return match;
+        });
+
+        if (pageAuthorId && window.docsifyAuthorSource[pageAuthorId]) {
+            modifiedHtml = createTrigger(pageAuthorId, null, true) + modifiedHtml;
+        }
+        return modifiedHtml;
+    });
+}
+
+window.$docsify = window.$docsify || {};
+window.$docsify.plugins = [].concat(authorPlugin, window.$docsify.plugins || []);
