@@ -105,6 +105,7 @@ java ${JAVA_ARGS} -jar ./fabric-server-mc.1.21.1-loader.0.18.4-launcher.1.1.1.ja
   - 请使用低版本浏览器,chromium142及以前版本
 
 - permission denined
+
 docker为linux环境
 出现 'permission denied'，通常是因为 Linux 系统没有给 '启动脚本'这个文件执行权限。
 解决方法:
