@@ -26,8 +26,8 @@ var authorCss = `
 /* 手机适配 */
 @media (max-width: 700px) {
     .author-float-container {
-        top: 25px;
-        left: 200px;
+        top: -20px;
+        left: 0px;
     }
 }
 
@@ -753,7 +753,7 @@ function authorPlugin(hook, vm) {
                          onmouseenter="showAuthorTooltip(this, '${id}')" 
                          onmouseleave="hideAuthorTooltip()">
                         <img src="${data.avatar}"> 
-                        <span>Created by <strong>${data.name}</strong></span>
+                        <span>文章作者: <strong>${data.name}</strong></span>
                     </div>
                 </div>`;
             } else {

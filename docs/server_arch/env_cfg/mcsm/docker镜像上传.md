@@ -8,6 +8,7 @@ author@xhbsh
 > 服务器 SSH 密码请查阅技术部团队文档
 > 
 > 有关docker的更多信息请查看 [Docker 官方文档](https://docs.docker.com/)
+> 
 > 比较好的中文教程 [docker教程](https://www.runoob.com/docker/docker-tutorial.html)
 
 ### 拉取并导出镜像
@@ -38,8 +39,7 @@ scp graalvm21.tar root@114.514.1.1:/home/root/
 scp -P 20022 graalvm21.tar root@114.514.1.1:/home/root/
 ```
 
-> 注意,是上传至实例所在的服务器中,不是实例中
-> 就是运行着mcsm的服务器
+> 注意,是上传至实例所在的服务器(就是运行着mcsm的服务器)中,不是实例中
 
 ## 服务器端部署
 > **注意**：以下命令需 **SSH 登录服务器(需要部署在哪台就登录哪台)** 后执行。
