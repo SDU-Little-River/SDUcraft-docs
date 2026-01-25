@@ -40,6 +40,8 @@ scp -P 20022 graalvm21.tar root@114.514.1.1:/home/root/
 ```
 
 > 注意,是上传至实例所在的服务器(就是运行着mcsm的服务器)中,不是实例中
+> 
+> 例如,上传至青岛mcsm中需要上传到10.102.33.76:10022
 
 ## 服务器端部署
 > **注意**：以下命令需 **SSH 登录服务器(需要部署在哪台就登录哪台)** 后执行。
@@ -57,9 +59,9 @@ scp -P 20022 graalvm21.tar root@114.514.1.1:/home/root/
     docker load -i graalvm21.tar
     ```
 
-3.  **重命名/打标签 (推荐)**
+3.  **重命名/打标签(推荐)**
 
-    原镜像名称可能过长，可以一个简短的标签
+    原镜像名称可能过长，可以打一个简短的标签
     ```bash
     # 格式: docker tag <原镜像名:原标签> <新镜像名:新标签>
     docker tag container-registry.oracle.com/graalvm/jdk:21 graalvm21:latest
@@ -69,5 +71,5 @@ scp -P 20022 graalvm21.tar root@114.514.1.1:/home/root/
 
 管理面板->节点->镜像管理
 ![img_2.png](./image/docker1.png)
-![img.png](omage/docker2.png)
+![img.png](image/docker2.png)
 
