@@ -78,3 +78,23 @@ button[onclick="docsifyDarkSwitcher()"] {
 .docsify-dark-mode .download-modal {
     background-color: rgba(62, 62, 62, 0.89);
 }
+/*侧边栏*/
+.sidebar  {
+    background-color: rgba(244, 241, 241, 0.96);
+}
+
+.sidebar-toggle {
+    background-color: rgba(244, 241, 241, 0.96)!important;
+    width: 40px !important;
+}
+
+
+.docsify-dark-mode .sidebar  {
+    background-color: rgba(32, 32, 33, 0.9) !important;
+}
+
+.docsify-dark-mode .sidebar-toggle {
+    background-color: rgb(32, 32, 33) !important;
+    width: 40px !important;
+}
+

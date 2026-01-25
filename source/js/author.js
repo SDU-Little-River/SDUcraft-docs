@@ -15,13 +15,23 @@ var authorCss = `
 }
 .author-inline:hover { background: rgba(66, 185, 131, 0.2); }
 
-/* 右上角 author@xxx */
+/* 左上角 author@xxx */
 .author-float-container {
     position: absolute;
-    top: -30px;
-    right: 0;
+    top: 11px;
+    left: 300px;
     z-index: 90;
 }
+
+/* 手机适配 */
+@media (max-width: 700px) {
+    .author-float-container {
+        top: 25px;
+        left: 200px;
+    }
+}
+
+
 .author-float-btn {
     display: flex;
     align-items: center;
