@@ -1,34 +1,3 @@
-window.docsifyAuthorSource = window.docsifyAuthorSource || {
-    "example": {
-        name: "Name",
-        avatar: "头像链接",
-        bio: "作者简介",
-        link: "https://github.com/xxx",
-        qq: "12345678",
-        email: "test@example.com",
-        github: "https://github.com/xxx"
-    },
-    "kylaan": {
-        name: "Kylaan",
-        avatar: "https://kylaan.top/_astro/avatar.CMXUbEij_1pATsD.webp",
-        bio: "",
-        link: "https://kylaan.top",
-        qq: "815728683",
-        github:"https://github.com/Kylaan"
-    },
-    "xhbsh": {
-        name: "xhbsh",
-        avatar: "https://www.xhbsh.top/img/xhbsh.png",
-        bio: "",
-        link: "https://www.xhbsh.top",
-        qq: "260342855",
-        email: "260342855@qq.com",
-        github: "https://github.com/SDU-Little-River"
-    }
-
-};
-
-// --- 2. CSS 样式 ---
 var authorCss = `
 /* 触发器通用样式 */
 .author-trigger { cursor: pointer; transition: opacity 0.2s; }
@@ -112,7 +81,6 @@ var authorCss = `
     height: 64px;
     border-radius: 50%;
     margin-bottom: 10px;
-    border: 3px solid #42b983;
     padding: 2px;
 }
 #author-global-tooltip h4 { margin: 0 0 5px 0; color: #333; font-size: 18px; font-weight: 600; }
@@ -271,7 +239,6 @@ body.docsify-dark-mode .contact-item:hover {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    border: 3px solid #42b983;
     padding: 2px;
     margin-bottom: 15px;
     object-fit: cover;
@@ -308,7 +275,69 @@ body.docsify-dark-mode .contact-item:hover {
     flex-wrap: wrap;
 }
 
-/* 深色模式适配 */
+.author-card-embedded .card-articles a:hover {
+    color: #42b983;
+}
+
+/* 查看详情按钮 */
+.author-card-embedded .card-detail-btn {
+    margin-top: 15px;
+    padding: 6px 12px;
+    background: #42b983;
+    color: white !important;
+    border-radius: 20px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.3s;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.author-card-embedded .card-detail-btn:hover {
+    background: #33a06f;
+    text-decoration: none !important;
+}
+body.docsify-dark-mode .author-card-embedded .card-detail-btn {
+    background: #3e3e3e;
+    border-color: #444;
+    color: #eee !important;
+}
+body.docsify-dark-mode .author-card-embedded .card-detail-btn:hover {
+    background: #42b983;
+    color: white !important;
+}
+
+/* --- Tooltip 文章列表 (新增) --- */
+.tooltip-articles {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.tooltip-articles h5 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.tooltip-articles a {
+    display: block;
+    margin: 0 0 8px 0;
+    color: #42b983;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+}
+.tooltip-articles a:hover {
+    color: #33a06f;
+}
+
+/* --- Dark Mode 适配 --- */
 body.docsify-dark-mode .author-card-embedded {
     background: #2d2d2d;
     border-color: #444;
@@ -316,6 +345,71 @@ body.docsify-dark-mode .author-card-embedded {
 }
 body.docsify-dark-mode .author-card-embedded h4 { color: #eee; }
 body.docsify-dark-mode .author-card-embedded p.card-bio { color: #aaa; }
+
+/* Highlighting for Modal (Details Page) */
+.author-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.author-modal-overlay.open { opacity: 1; }
+
+.author-modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    position: relative;
+    font-family: var(--theme-font, sans-serif);
+}
+.author-modal-overlay.open .author-modal-content { transform: translateY(0); }
+
+.author-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.author-modal-header h3 { margin: 0; font-size: 1.2rem; color: #333; font-weight: 600; }
+.author-modal-close {
+    background: none; border: none; font-size: 28px; color: #999; cursor: pointer;
+    line-height: 1; padding: 0; width: 30px; height: 30px; display:flex; align-items:center; justify-content:center;
+}
+.author-modal-close:hover { color: #333; }
+
+.author-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.author-modal-loading {
+    text-align: center; color: #888; padding: 20px;
+}
+.author-article-list { list-style: none; padding: 0; margin: 0; }
+.author-article-list li { margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 8px; }
+.author-article-list li:last-child { border-bottom: none; }
+.author-article-list a { color: #42b983; text-decoration: none; font-weight: 500; font-size: 15px; display: block; }
+.author-article-list a:hover { text-decoration: underline; }
+
+/* Dark mode for Modal */
+body.docsify-dark-mode .author-modal-content { background: #2d2d2d; color: #eee; }
+body.docsify-dark-mode .author-modal-header { border-bottom-color: #444; }
+body.docsify-dark-mode .author-modal-header h3 { color: #eee; }
+body.docsify-dark-mode .author-article-list li { border-bottom-color: #444; }
 `;
 
 // 注入样式
@@ -362,6 +456,121 @@ function showToast(parent, msg) {
     setTimeout(() => {
         toast.remove();
     }, 1000);
+}
+
+
+/* --- Modal 逻辑 (新增) --- */
+let authorArticleCache = null;
+
+async function fetchAllArticles() {
+    if (authorArticleCache) return authorArticleCache;
+
+    try {
+        const resp = await fetch('_sidebar.md');
+        if (!resp.ok) return [];
+        const text = await resp.text();
+
+        // Match [Title](path.md)
+        const regex = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
+        const matches = [...text.matchAll(regex)];
+
+        // Limit concurrency if needed, but for small docs parallel is fine
+        const tasks = matches.map(async m => {
+            const title = m[1];
+            const url = m[2];
+            try {
+                const cResp = await fetch(url);
+                if (!cResp.ok) return null;
+                const content = await cResp.text();
+                // Docsify Hash URL construction
+                const hashUrl = '#/' + url.replace(/^\//, '').replace(/\.md$/, '');
+                return { title, url, content, hashUrl };
+            } catch { return null; }
+        });
+
+        const results = await Promise.all(tasks);
+        authorArticleCache = results.filter(r => r !== null);
+        return authorArticleCache;
+    } catch(e) {
+        console.error("Error fetching articles", e);
+        return [];
+    }
+}
+
+window.openAuthorModal = async function(authorId) {
+    const data = window.docsifyAuthorSource[authorId];
+    if(!data) return;
+
+    // Create Modal DOM if missing
+    let modal = document.querySelector('.author-modal-overlay');
+    if(!modal) {
+        modal = document.createElement('div');
+        modal.className = 'author-modal-overlay';
+        modal.innerHTML = `
+            <div class="author-modal-content">
+                <div class="author-modal-header">
+                    <h3>作者详情</h3>
+                    <button class="author-modal-close" onclick="closeAuthorModal()">&times;</button>
+                </div>
+                <div class="author-modal-body" id="author-modal-content-area"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeAuthorModal();
+        });
+    }
+
+    const contentArea = document.getElementById('author-modal-content-area');
+
+    // Initial content
+    contentArea.innerHTML = `
+        <div style="text-align:center; padding-bottom: 20px;">
+             <img src="${data.avatar}" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;object-fit:cover;padding:2px;border:1px solid #eee;">
+             <h2 style="margin:5px 0 10px 0; color:var(--theme-color, #42b983);">${data.name}</h2>
+             <p style="color:#666; margin:0 0 15px 0; line-height:1.5;">${data.bio || '这位作者很懒，什么也没写。'}</p>
+             <div style="display:flex; justify-content:center; gap:10px;">
+                 ${data.qq ? `<span style="font-size:12px; background:#f5f5f5; padding:2px 8px; border-radius:4px;">QQ: ${data.qq}</span>` : ''}
+                 ${data.github ? `<a href="${data.github}" target="_blank" style="font-size:12px; color:#42b983; text-decoration:none;">GitHub Page</a>` : ''}
+             </div>
+        </div>
+        <div style="border-top:1px solid #eee; margin:10px -20px 20px -20px;"></div>
+        <h4 style="margin:0 0 15px 0; color:var(--theme-color); font-weight:600;">参与贡献</h4>
+        <div class="author-modal-loading">
+            <div style="display:inline-block; width:20px; height:20px; border:3px solid rgba(66,185,131,0.3); border-radius:50%; border-top-color:#42b983; animation:spin 1s ease-in-out infinite;"></div>
+            <span style="margin-left:10px; vertical-align:top;">正在搜索全站文章...</span>
+            <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        </div>
+    `;
+
+    modal.style.display = 'flex';
+    modal.offsetHeight; // force reflow
+    modal.classList.add('open');
+
+    // Load articles
+    setTimeout(async () => {
+        const allArticles = await fetchAllArticles();
+        const myArticles = allArticles.filter(a => new RegExp(`author@${authorId}\\b`).test(a.content));
+
+        const listHtml = myArticles.length > 0
+            ? `<ul class="author-article-list">
+                 ${myArticles.map(a => `<li><a href="${a.hashUrl}" onclick="closeAuthorModal()">${a.title}</a></li>`).join('')}
+               </ul>`
+            : `<p style="text-align:center;color:#999;padding:20px;">暂无通过 'author@${authorId}' 标记的文章。</p>`;
+
+        const loadingEl = contentArea.querySelector('.author-modal-loading');
+        if(loadingEl) loadingEl.outerHTML = listHtml;
+    }, 100); // slight delay for animation
+}
+
+window.closeAuthorModal = function() {
+    const modal = document.querySelector('.author-modal-overlay');
+    if(modal) {
+        modal.classList.remove('open');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
 }
 
 
@@ -464,7 +673,6 @@ window.hideAuthorTooltip = function() {
     }, 200);
 };
 
-// --- 5. Docsify 插件安装 ---
 
 function authorPlugin(hook, vm) {
     let pageAuthorId = null;
@@ -507,8 +715,6 @@ function authorPlugin(hook, vm) {
     });
 
     hook.afterEach(html => {
-        // 1. 处理嵌入式卡片语法: [author-card:id]
-        // 兼容包裹在 HTML 标签中的情况，使用非贪婪匹配
         html = html.replace(/\[author-card:([a-zA-Z0-9_-]+)\]/g, (match, id) => {
             const data = window.docsifyAuthorSource[id];
             if (!data) return `<p style="color:red;text-align:center;">Author '${id}' not found.</p>`;
@@ -522,6 +728,7 @@ function authorPlugin(hook, vm) {
                 <p class="card-bio">${data.bio}</p>
                 ${data.link ? `<a href="${data.link}" target="_blank" class="card-link">查看个人主页 &rarr;</a>` : ''}
                 <div class="card-contacts">${contactsHtml}</div>
+                <button class="card-detail-btn" onclick="openAuthorModal('${id}')">详细信息 </button>
             </div>`;
         });
 
@@ -535,7 +742,7 @@ function authorPlugin(hook, vm) {
                     <div class="author-float-btn author-trigger" 
                          onmouseenter="showAuthorTooltip(this, '${id}')" 
                          onmouseleave="hideAuthorTooltip()">
-                        <img src="${data.avatar}">
+                        <img src="${data.avatar}"> 
                         <span>Created by <strong>${data.name}</strong></span>
                     </div>
                 </div>`;

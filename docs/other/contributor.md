@@ -3,5 +3,4 @@
 <div class="author-cards-container">
 [author-card:xhbsh]
 [author-card:kylaan]
-[author-card:example]
 </div>
