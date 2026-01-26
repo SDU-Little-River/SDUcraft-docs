@@ -214,6 +214,23 @@ body.docsify-dark-mode .author-contribution-badge {
     border-color: #2d4f48;
 }
 
+/* 贡献列表样式 (新增，用于一行一行显示) */
+.author-contribution-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 15px 0;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+}
+.author-contribution-list li {
+    margin-bottom: 4px;
+}
+body.docsify-dark-mode .author-contribution-list {
+    color: #aaa;
+}
+
 body.docsify-dark-mode .contact-item {
     background: #3e3e3e;
     color: #ccc;
@@ -551,12 +568,14 @@ window.openAuthorModal = async function(authorId) {
 
     const contentArea = document.getElementById('author-modal-content-area');
 
-    // 生成贡献徽章 HTML
+    // 生成贡献内容 (Modal 中显示为列表)
     let contributionsHtml = '';
     if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
-        contributionsHtml = `<div class="author-contribution-badges">` +
-            data.contributions.map(c => `<span class="author-contribution-badge">${c}</span>`).join('') +
-            `</div>`;
+        contributionsHtml = `<div style="margin-bottom:15px; text-align: center;">
+            <strong style="display:block; margin-bottom: 5px; color:var(--theme-color, #42b983);">主要贡献</strong>
+            <ul class="author-contribution-list" style="margin:0;">` +
+            data.contributions.map(c => `<li>${c}</li>`).join('') +
+            `</ul></div>`;
     }
 
     // Initial content
@@ -740,12 +759,22 @@ function authorPlugin(hook, vm) {
         return contactsHtml;
     };
 
-    // 辅助函数：生成贡献徽章 HTML
+    // 辅助函数：生成贡献徽章 HTML (用于 Tooltip)
     const generateContributionsHtml = (data) => {
         if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
             return `<div class="author-contribution-badges">` +
                 data.contributions.map(c => `<span class="author-contribution-badge">${c}</span>`).join('') +
                 `</div>`;
+        }
+        return '';
+    };
+
+    // 辅助函数：生成贡献列表 HTML (用于嵌入式卡片)
+    const generateContributionsListHtml = (data) => {
+        if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
+            return `<ul class="author-contribution-list">` +
+                data.contributions.map(c => `<li>${c}</li>`).join('') +
+                `</ul>`;
         }
         return '';
     };
@@ -784,7 +813,8 @@ function authorPlugin(hook, vm) {
             if (!data) return `<p style="color:red;text-align:center;">Author '${id}' not found.</p>`;
 
             const contactsHtml = generateContactsHtml(data);
-            const contributionsHtml = generateContributionsHtml(data);
+            // 使用列表形式而不是徽章
+            const contributionsHtml = generateContributionsListHtml(data);
 
             return `<div class="author-card-embedded">
 <img src="${data.avatar}" class="card-avatar" alt="${data.name}">

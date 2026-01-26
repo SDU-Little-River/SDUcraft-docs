@@ -101,7 +101,6 @@ java ${JAVA_ARGS} -jar ./fabric-server-mc.1.21.1-loader.0.18.4-launcher.1.1.1.ja
 ![img_16.png](image/img_16.png)
 
 ## 常见问题
-
 ::: qa 无法连接到青岛的节点 错误信息 xhr poll error
 
 **问题原因：**
@@ -123,5 +122,13 @@ docker为linux环境,出现'permission denied'，通常是因为 Linux 系统没
 - 关闭实例后正常启动即可
 :::
 
+::: qa MCDR插件缺少依赖
+**问题原因：**
+直接使用文件方式安装插件不会自动补全依赖
 
+**解决方法:**
+- 删除缺少依赖的插件
+- 使用MCDR命令安装插件[MCDR插件安装教程](https://docs.mcdreforged.com/zh-cn/latest/command/mcdr.html#install)
+
+:::
 
