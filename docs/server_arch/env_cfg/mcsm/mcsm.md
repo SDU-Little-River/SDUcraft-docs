@@ -128,7 +128,9 @@ docker为linux环境,出现'permission denied'，通常是因为 Linux 系统没
 
 **解决方法:**
 - 删除缺少依赖的插件
-- 使用MCDR命令安装插件[MCDR插件安装教程](https://docs.mcdreforged.com/zh-cn/latest/command/mcdr.html#install)
+- 使用MCDR命令安装插件
+- 安装指令可前往[插件仓库](https://mcdreforged.com/zh-CN/plugins)获取
+![img.png](./image/mcdr1.png)
 
 :::
 
