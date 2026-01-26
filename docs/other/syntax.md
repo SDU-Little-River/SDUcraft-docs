@@ -90,7 +90,6 @@ author@xhbsh
     link: "https://github.com/xxx",
     qq: "12345678",
     email: "test@example.com",
-    github: "https://github.com/xxx",
-    contributions: ["qwq"]
+    github: "https://github.com/xxx"
 }
 ```
