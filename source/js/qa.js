@@ -114,6 +114,27 @@ var css = `
     margin-bottom: 4px;
 }
 
+h1[id^="qa-"], h2[id^="qa-"], h3[id^="qa-"], h4[id^="qa-"], h5[id^="qa-"], h6[id^="qa-"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* 高亮动画 */
+@keyframes qa-highlight {
+    0% { border-color: var(--theme-color, var(--qa-theme-color)); box-shadow: 0 0 10px rgba(66, 185, 131, 0.5); }
+    100% { border-color: var(--sidebar-border-color, #eaecef); box-shadow: none; }
+}
+
+.qa-highlight {
+    animation: qa-highlight 2s ease-out;
+}
+
 /* Dark Mode Support */
 .docsify-dark-mode .qa-details {
     border-color: rgba(255, 255, 255, 0.08); /* 更柔和的边框 */
@@ -165,10 +186,28 @@ function install(hook, vm) {
             return '<!-- QA_CODE_BLOCK_' + (codeBlocks.length - 1) + ' -->';
         });
 
-        tempContent = tempContent.replace(/::: qa\s+(.+?)\s*\n([\s\S]*?)\n:::/gm, function (match, title, body) {
+        // 获取全局配置的层级，默认为 3
+        var qaConfig = (window.$docsify && window.$docsify.qaPlugin) || {};
+        var defaultLevel = qaConfig.headingLevel || 3;
+
+        // 正则支持 ::: qa(4) Title 语法
+        tempContent = tempContent.replace(/::: qa(?:\s*\((\d+)\))?\s+(.+?)\s*\n([\s\S]*?)\n:::/gm, function (match, specificLevel, title, body) {
+            var safeTitle = title.trim();
+            // 生成唯一ID，添加 qa- 前缀
+            var id = 'qa-' + safeTitle.replace(/\s+/g, '-');
+
+            // 确定使用哪个层级
+            var level = specificLevel ? parseInt(specificLevel) : defaultLevel;
+            if (level < 1) level = 1;
+            if (level > 6) level = 6;
+            var hashes = '#'.repeat(level);
+
+            // 返回 Markdown 标题 (用于侧边栏) + Details 组件
             return `
-<details class="qa-details">
-<summary class="qa-summary">${title.trim()}</summary>
+${hashes} ${safeTitle} :id=${id}
+
+<details class="qa-details" id="details-${id}">
+<summary class="qa-summary">${safeTitle}</summary>
 <div class="qa-content">
 
 ${body.trim()}
@@ -183,6 +222,43 @@ ${body.trim()}
         });
 
         return finalContent;
+    });
+
+    hook.doneEach(function() {
+        // 自动展开/定位逻辑
+        try {
+            var urlId = decodeURIComponent(window.location.hash.split('?id=')[1] || '');
+            if (urlId && urlId.startsWith('qa-')) {
+                var targetDetails = document.getElementById('details-' + urlId);
+                if (targetDetails) {
+                    targetDetails.open = true;
+                    targetDetails.classList.add('qa-highlight');
+                    // 稍微延迟滚动，确保展开动画完成或页面布局稳定
+                    setTimeout(function() {
+                        targetDetails.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
+
+            // 监听侧边栏点击
+            var sidebarLinks = document.querySelectorAll('.sidebar-nav a[href*="?id=qa-"]');
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    var href = link.getAttribute('href');
+                    var linkId = decodeURIComponent(href.split('?id=')[1] || '');
+                    var details = document.getElementById('details-' + linkId);
+                    if (details) {
+                         details.open = true;
+                         details.classList.remove('qa-highlight');
+                         void details.offsetWidth; // trigger reflow
+                         details.classList.add('qa-highlight');
+                    }
+                });
+            });
+
+        } catch (e) {
+            console.error('QA Plugin Error:', e);
+        }
     });
 }
 
