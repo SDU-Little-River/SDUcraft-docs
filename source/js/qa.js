@@ -159,11 +159,13 @@ styleInject(css);
 
 function install(hook, vm) {
     hook.beforeEach(function (content) {
-        // Syntax:
-        // ::: qa Title Text
-        // Body Text
-        // :::
-        return content.replace(/::: qa\s+(.+?)\s*\n([\s\S]*?)\n:::/gm, function (match, title, body) {
+        var codeBlocks = [];
+        var tempContent = content.replace(/(`{3,})[\s\S]*?\1/gm, function(match) {
+            codeBlocks.push(match);
+            return '<!-- QA_CODE_BLOCK_' + (codeBlocks.length - 1) + ' -->';
+        });
+
+        tempContent = tempContent.replace(/::: qa\s+(.+?)\s*\n([\s\S]*?)\n:::/gm, function (match, title, body) {
             return `
 <details class="qa-details">
 <summary class="qa-summary">${title.trim()}</summary>
@@ -175,6 +177,12 @@ ${body.trim()}
 </details>
 `;
         });
+
+        var finalContent = tempContent.replace(/<!-- QA_CODE_BLOCK_(\d+) -->/gm, function(match, id) {
+            return codeBlocks[parseInt(id)];
+        });
+
+        return finalContent;
     });
 }
 

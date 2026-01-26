@@ -49,16 +49,7 @@
         whereToPlace: "bottom",  // "top" or "bottom", default to "bottom"
       },
     }
-    window.docsifyAuthorSource = window.docsifyAuthorSource || {
-        "example": {
-            name: "Name",
-            avatar: "头像链接",
-            bio: "作者简介",
-            link: "https://github.com/xxx",
-            qq: "12345678",
-            email: "test@example.com",
-            github: "https://github.com/xxx"
-        },
+    window.docsifyAuthorSource = {
         "kylaan": {
             name: "Kylaan",
             avatar: "https://kylaan.top/_astro/avatar.CMXUbEij_1pATsD.webp",
@@ -70,19 +61,21 @@
         "xhbsh": {
             name: "xhbsh",
             avatar: "https://www.xhbsh.top/img/xhbsh.png",
-            bio: "qwq",
+            bio: "",
             link: "https://www.xhbsh.top",
             qq: "260342855",
             email: "260342855@qq.com",
-            github: "https://github.com/SDU-Little-River"
+            github: "https://github.com/SDU-Little-River",
+            contributions: ["网站搭建", "文档维护"]
         },
         "matcha": {
             name:"抹茶蛋糕Matcha",
             avatar: "./source/image/author/matcha.jpg",
-            bio: "作者简介",
+            bio: "",
             link: "https://github.cyom/iconquestion",
             qq: "2940876994",
-            github: "https://github.com/iconquestion"
+            github: "https://github.com/iconquestion",
+            contributions: ["群猫娘"]
         }
     };
   </script>
@@ -126,13 +119,6 @@
   <script src="./source/js/darkmode.js"></script>
   <!-- 调节字体大小 -->
   <script src="./source/js/fontsize.js"></script>
-  <!-- 下载 -->
-  <script src="source/js/download.js"></script>
-  <!--彩色字体-->
-  <script src="source/js/coloredText.js"></script>
-  <script src="source/js/domColor.js"></script>
-  <!--高亮字体-->
-  <script src="source/js/highlightText.js"></script>
   <!--QA插件-->
   <script src="source/js/qa.js"></script>
   <!--作者-->

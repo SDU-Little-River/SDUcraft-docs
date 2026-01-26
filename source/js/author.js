@@ -106,7 +106,6 @@ var authorCss = `
 }
 #author-global-tooltip a.tooltip-link:hover { text-decoration: underline; }
 
-/* --- 联系方式区域 (新增) --- */
 .tooltip-contacts {
     border-top: 1px solid #eee;
     padding-top: 12px;
@@ -135,7 +134,6 @@ var authorCss = `
 }
 .contact-item svg { width: 14px; height: 14px; fill: currentColor; }
 
-/* 复制成功的提示动画 */
 @keyframes copyFade { 0% { opacity: 1; } 100% { opacity: 0; } }
 .copy-toast {
     position: absolute;
@@ -182,7 +180,6 @@ body.docsify-dark-mode #author-global-tooltip a.tooltip-link {
     color: #42b983;
 }
 
-/* 箭头适配 */
 body.docsify-dark-mode #author-global-tooltip.tooltip-top::after {
     border-top-color: #2d2d2d;
 }
@@ -191,9 +188,30 @@ body.docsify-dark-mode #author-global-tooltip.tooltip-bottom::after {
     border-bottom-color: #2d2d2d;
 }
 
-/* 联系方式适配 */
 body.docsify-dark-mode .tooltip-contacts {
     border-top-color: #444;
+}
+
+/* 贡献徽章样式 (新增) */
+.author-contribution-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0;
+}
+.author-contribution-badge {
+    font-size: 11px;
+    background-color: #e0f2f1;
+    color: #00695c;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid #b2dfdb;
+}
+body.docsify-dark-mode .author-contribution-badge {
+    background-color: #1e3a35;
+    color: #80cbc4;
+    border-color: #2d4f48;
 }
 
 body.docsify-dark-mode .contact-item {
@@ -255,7 +273,7 @@ body.docsify-dark-mode .contact-item:hover {
 }
 
 .author-card-embedded h4 { 
-    margin: 0 0 10px 0 !important; 
+    margin: 0 0 5px 0 !important; 
     font-size: 1.3rem !important; 
     font-weight: 700 !important;
     color: #333; 
@@ -353,8 +371,8 @@ body.docsify-dark-mode .author-card-embedded {
     border-color: #444;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
-body.docsify-dark-mode .author-card-embedded h4 { color: #eee; }
-body.docsify-dark-mode .author-card-embedded p.card-bio { color: #aaa; }
+.docsify-dark-mode .author-card-embedded h4 { color: #eee; }
+.docsify-dark-mode .author-card-embedded p.card-bio { color: #aaa; }
 
 /* Highlighting for Modal (Details Page) */
 .author-modal-overlay {
@@ -533,11 +551,20 @@ window.openAuthorModal = async function(authorId) {
 
     const contentArea = document.getElementById('author-modal-content-area');
 
+    // 生成贡献徽章 HTML
+    let contributionsHtml = '';
+    if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
+        contributionsHtml = `<div class="author-contribution-badges">` +
+            data.contributions.map(c => `<span class="author-contribution-badge">${c}</span>`).join('') +
+            `</div>`;
+    }
+
     // Initial content
     contentArea.innerHTML = `
         <div style="text-align:center; padding-bottom: 20px;">
-             <img src="${data.avatar}" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;object-fit:cover;padding:2px;border:1px solid #eee;">
+             <img src="${data.avatar}" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;object-fit:cover;padding:2px;border:1px solid #eee;" alt="${data.name}">
              <h2 style="margin:5px 0 10px 0; color:var(--theme-color, #42b983);">${data.name}</h2>
+             ${contributionsHtml}
              <p style="color:#666; margin:0 0 15px 0; line-height:1.5;">${data.bio || '这位作者很懒，什么也没写。'}</p>
              <div style="display:flex; justify-content:center; gap:10px;">
                  ${data.qq ? `<span style="font-size:12px; background:#f5f5f5; padding:2px 8px; border-radius:4px;">QQ: ${data.qq}</span>` : ''}
@@ -640,13 +667,22 @@ window.showAuthorTooltip = function(element, authorId) {
         `;
     }
 
+    // 贡献项生成逻辑
+    let contributionsHtml = '';
+    if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
+        contributionsHtml = `<div class="author-contribution-badges">` +
+            data.contributions.map(c => `<span class="author-contribution-badge">${c}</span>`).join('') +
+            `</div>`;
+    }
+
     // 包装联系方式容器
     const contactsSection = hasContacts ? `<div class="tooltip-contacts">${contactsHtml}</div>` : '';
 
     // 填充内容
     tooltip.innerHTML = `
-        <img src="${data.avatar}" class="tooltip-avatar">
+        <img src="${data.avatar}" class="tooltip-avatar" alt="${data.name}">
         <h4>${data.name}</h4>
+        ${contributionsHtml}
         <p class="tooltip-bio">${data.bio}</p>
         ${data.link ? `<a href="${data.link}" target="_blank" class="tooltip-link">查看主页 →</a>` : ''}
         ${contactsSection}
@@ -693,88 +729,95 @@ function authorPlugin(hook, vm) {
     const generateContactsHtml = (data) => {
         let contactsHtml = '';
         if (data.qq) {
-            contactsHtml += `
-            <div class="contact-item" onclick="copyToClipboard('${data.qq}', this)" title="点击复制: ${data.qq}">
-                ${ICONS.qq} <span>QQ</span>
-            </div>`;
+            contactsHtml += `<div class="contact-item" onclick="copyToClipboard('${data.qq}', this)" title="点击复制: ${data.qq}">${ICONS.qq} <span>QQ</span></div>`;
         }
         if (data.email) {
-            contactsHtml += `
-            <a href="mailto:${data.email}" class="contact-item" title="${data.email}">
-                ${ICONS.email} <span>Email</span>
-            </a>`;
+            contactsHtml += `<a href="mailto:${data.email}" class="contact-item" title="${data.email}">${ICONS.email} <span>Email</span></a>`;
         }
         if (data.github) {
-            contactsHtml += `
-            <a href="${data.github}" target="_blank" class="contact-item" title="GitHub">
-                ${ICONS.github} <span>GitHub</span>
-            </a>`;
+            contactsHtml += `<a href="${data.github}" target="_blank" class="contact-item" title="GitHub">${ICONS.github} <span>GitHub</span></a>`;
         }
         return contactsHtml;
     };
 
+    // 辅助函数：生成贡献徽章 HTML
+    const generateContributionsHtml = (data) => {
+        if (data.contributions && Array.isArray(data.contributions) && data.contributions.length > 0) {
+            return `<div class="author-contribution-badges">` +
+                data.contributions.map(c => `<span class="author-contribution-badge">${c}</span>`).join('') +
+                `</div>`;
+        }
+        return '';
+    };
+
+    const createTrigger = (id, text, isFloat) => {
+        const data = window.docsifyAuthorSource[id];
+        if (!data) return isFloat ? '' : text;
+
+        if (isFloat) {
+            return `<div class="author-float-container"><div class="author-float-btn author-trigger" onmouseenter="showAuthorTooltip(this, '${id}')" onmouseleave="hideAuthorTooltip()"><img src="${data.avatar}" alt="${data.name}"> <span>文章作者: <strong>${data.name}</strong></span></div></div>`;
+        } else {
+            return `<span class="author-inline author-trigger" onmouseenter="showAuthorTooltip(this, '${id}')" onmouseleave="hideAuthorTooltip()">@${data.name}</span>`;
+        }
+    };
+
     hook.beforeEach(content => {
+        // 1. Page Author Detection
         pageAuthorId = null;
         const regex = /^author@([a-zA-Z0-9_-]+)\s*/;
         const match = content.match(regex);
         if (match) {
             pageAuthorId = match[1];
-            return content.replace(regex, '');
+            content = content.replace(regex, '');
         }
-        return content;
-    });
 
-    hook.afterEach(html => {
-        html = html.replace(/\[author-card:([a-zA-Z0-9_-]+)\]/g, (match, id) => {
+        // 2. Mask Code Blocks
+        const codeBlocks = [];
+        content = content.replace(/(`{3,})[\s\S]*?\1/gm, (match) => {
+            codeBlocks.push(match);
+            return `<!-- AUTHOR_CODE_BLOCK_${codeBlocks.length - 1} -->`;
+        });
+
+        // 3. Replace [author-card:...]
+        content = content.replace(/\[author-card:([a-zA-Z0-9_-]+)\]/g, (match, id) => {
             const data = window.docsifyAuthorSource[id];
             if (!data) return `<p style="color:red;text-align:center;">Author '${id}' not found.</p>`;
 
             const contactsHtml = generateContactsHtml(data);
+            const contributionsHtml = generateContributionsHtml(data);
 
-            return `
-            <div class="author-card-embedded">
-                <img src="${data.avatar}" class="card-avatar" alt="${data.name}">
-                <h4>${data.name}</h4>
-                <p class="card-bio">${data.bio}</p>
-                ${data.link ? `<a href="${data.link}" target="_blank" class="card-link">查看个人主页 &rarr;</a>` : ''}
-                <div class="card-contacts">${contactsHtml}</div>
-                <button class="card-detail-btn" onclick="openAuthorModal('${id}')">详细信息 </button>
-            </div>`;
+            return `<div class="author-card-embedded">
+<img src="${data.avatar}" class="card-avatar" alt="${data.name}">
+<h4>${data.name}</h4>
+${contributionsHtml}
+<p class="card-bio">${data.bio}</p>
+${data.link ? `<a href="${data.link}" target="_blank" class="card-link">查看个人主页 &rarr;</a>` : ''}
+<div class="card-contacts">${contactsHtml}</div>
+<button class="card-detail-btn" onclick="openAuthorModal('${id}')">详细信息 </button>
+</div>`;
         });
 
-        const createTrigger = (id, text, isFloat) => {
-            const data = window.docsifyAuthorSource[id];
-            if (!data) return isFloat ? '' : text;
-
-            if (isFloat) {
-                return `
-                <div class="author-float-container">
-                    <div class="author-float-btn author-trigger" 
-                         onmouseenter="showAuthorTooltip(this, '${id}')" 
-                         onmouseleave="hideAuthorTooltip()">
-                        <img src="${data.avatar}"> 
-                        <span>文章作者: <strong>${data.name}</strong></span>
-                    </div>
-                </div>`;
-            } else {
-                return `
-                <span class="author-inline author-trigger" 
-                      onmouseenter="showAuthorTooltip(this, '${id}')" 
-                      onmouseleave="hideAuthorTooltip()">
-                    @${data.name}
-                </span>`;
+        // 4. Replace @... (Inline Mentions)
+        content = content.replace(/@([a-zA-Z0-9_-]+)/g, (match, id) => {
+            if (window.docsifyAuthorSource[id]) {
+                return createTrigger(id, match, false);
             }
-        };
-
-        let modifiedHtml = html.replace(/@([a-zA-Z0-9_-]+)/g, (match, id) => {
-            if (window.docsifyAuthorSource[id]) return createTrigger(id, match, false);
             return match;
         });
 
+        // 5. Restore Code Blocks
+        content = content.replace(/<!-- AUTHOR_CODE_BLOCK_(\d+) -->/gm, (match, id) => {
+            return codeBlocks[parseInt(id)];
+        });
+
+        return content;
+    });
+
+    hook.afterEach(html => {
         if (pageAuthorId && window.docsifyAuthorSource[pageAuthorId]) {
-            modifiedHtml = createTrigger(pageAuthorId, null, true) + modifiedHtml;
+            return createTrigger(pageAuthorId, null, true) + html;
         }
-        return modifiedHtml;
+        return html;
     });
 }
 

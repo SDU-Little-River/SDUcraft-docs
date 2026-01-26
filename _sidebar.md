@@ -12,4 +12,6 @@
   - [pve网络转发](./docs/server_arch/env_cfg/pve/网络转发.md)
 
 ---
-- [**贡献人员**](./docs/other/contributor.md)
+- **其他**
+  - [贡献人员](./docs/other/contributor.md)
+  - [自定义markdown语法](./docs/other/syntax.md)
