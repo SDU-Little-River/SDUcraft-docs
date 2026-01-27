@@ -60,6 +60,7 @@ author@xhbsh
 #### 使用 MCDR
 修改根目录下的 `config.yml` 配置启动命令，或直接指定启动脚本路径。
 > **警告**：镜像环境为 Linux 系统，**不支持** `.bat` 批处理脚本，请使用 `.sh` (Bash) 脚本。
+> 如果需要使用其他版本的java请自行准备并放至根目录中
 
 ![img_15.png](image/img_15.png)
 
