@@ -18,19 +18,10 @@ var authorCss = `
 /* 左上角 author@xxx */
 .author-float-container {
     position: absolute;
-    top: 11px;
-    left: 300px;
+    top: -1px;
+    left: 17px;
     z-index: 90;
 }
-
-/* 手机适配 */
-@media (max-width: 700px) {
-    .author-float-container {
-        top: -20px;
-        left: 0px;
-    }
-}
-
 
 .author-float-btn {
     display: flex;
