@@ -12,6 +12,10 @@
   - [pve网络转发](./docs/server_arch/env_cfg/pve/网络转发.md)
 
 ---
+- **运维**
+ - [服务器运维自救级别指南](./docs/sducraft服务器运维自救级别指南v1.md)
+
+---
 - **其他**
   - [贡献人员](./docs/other/contributor.md)
   - [自定义markdown语法](./docs/other/syntax.md)
