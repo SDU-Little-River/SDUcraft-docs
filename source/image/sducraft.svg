@@ -1,0 +1,22 @@
+<svg width="640" height="128" viewBox="0 0 430 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 草方块图标 -->
+  <g transform="translate(10, 10) scale(4)">
+    <!-- 泥土 -->
+    <rect x="0" y="3" width="10" height="7" fill="#795548"/>
+    <!-- 草皮 -->
+    <rect x="0" y="0" width="10" height="3" fill="#4CAF50"/>
+    <!-- 像素点细节 -->
+    <rect x="1" y="1" width="1" height="1" fill="#81C784"/>
+    <rect x="6" y="4" width="1" height="1" fill="#5D4037"/>
+  </g>
+
+  <!-- 文字: SDUcraft -->
+  <text x="60" y="42" font-family="'Courier New', Courier, monospace" font-weight="900" font-size="50" fill="#333" letter-spacing="-1">
+    SDU<tspan fill="#4CAF50">craft</tspan>
+  </text>
+  
+  <!-- 文字: docs -->
+  <text x="360" y="43" font-family="'Courier New', Courier, monospace" font-weight="bold" font-size="50" fill="#555" text-anchor="middle">
+    DOCS
+  </text>
+</svg>

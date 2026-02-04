@@ -14,12 +14,6 @@
     --dark-sun-color: #ffffff;
 }
 
-/*更改切换按钮的位置跟紫薯统计错开*/
-button[onclick="docsifyDarkSwitcher()"] {
-    position: fixed;
-    left: 10px;
- }
-
 /*更改左下角菜单按钮防止跟深色模式冲突*/
 .docsify-dark-mode .sidebar-toggle span{
     background-color: #80eddd !important;
@@ -77,4 +71,149 @@ button[onclick="docsifyDarkSwitcher()"] {
 
 .docsify-dark-mode .download-modal {
     background-color: rgba(62, 62, 62, 0.89);
+}
+
+.sidebar  {
+    background-color: rgba(244, 241, 241, 0.96);
+}
+
+.sidebar-toggle {
+    background-color: rgba(244, 241, 241, 0.96)!important;
+    width: 40px !important;
+}
+
+
+.docsify-dark-mode .sidebar  {
+    background-color: rgba(32, 32, 33, 0.9) !important;
+}
+
+.docsify-dark-mode .sidebar-toggle {
+    background-color: rgb(32, 32, 33) !important;
+    width: 40px !important;
+}
+
+#fixed-action-bar {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    top: auto;
+    transform: none;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+#settings-toggle-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--dark-theme-color, #42b983);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    font-size: 24px;
+}
+
+#settings-toggle-btn:hover {
+    transform: rotate(30deg) scale(1.1);
+}
+
+.docsify-dark-mode #settings-toggle-btn {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #eee;
+}
+
+#settings-panel {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    display: none; /* 默认隐藏 */
+    flex-direction: column;
+    gap: 15px;
+    min-width: 150px;
+}
+
+#settings-panel.active {
+    display: flex;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.docsify-dark-mode #settings-panel {
+    background-color: rgba(40, 40, 40, 0.95);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    border: 1px solid #555;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.settings-label {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+}
+.docsify-dark-mode .settings-label {
+    color: #ccc;
+}
+
+#settings-panel button {
+    position: static !important;
+    margin: 0 !important;
+    transform: none;
+    transition: opacity 0.2s;
+}
+#settings-panel button:hover {
+    opacity: 0.8;
+}
+
+.font-control-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    padding: 2px;
+}
+.docsify-dark-mode .font-control-group {
+    background: #333;
+}
+
+.font-size-display {
+    writing-mode: horizontal-tb;
+    font-size: 16px !important;
+    margin-top: 0;
+    letter-spacing: normal;
+    font-weight: bold;
+    min-width: 0;
+    display: none;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#main > div:nth-child(1) {
+    position: absolute;
+    font-size: 16px !important;
+    top:9px !important;
+    right:17px;
 }
