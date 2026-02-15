@@ -17,12 +17,12 @@ function createDownloadButton(text, path) {
 
 function showDownloadModal(encodedPath) {
     const mirrors = [
-        { name: 'Github Raw 国内访问速度可能较慢', baseUrl: 'https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' },
-        { name: '镜像站1 github.tbedu.top', baseUrl: 'https://github.tbedu.top/https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' },
-        { name: '镜像站2 gh.llkk.cc', baseUrl: 'https://gh.llkk.cc/https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' },
-        { name: '镜像站3 gh-proxy.com', baseUrl: 'https://gh-proxy.com/https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' },
-        { name: '镜像站4 github.7boe.top', baseUrl: 'https://github.7boe.top/https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' },
-        { name: '镜像站5 fastgit.cc', baseUrl: 'https://fastgit.cc/https://github.com/tanhHeng/GraduateTextsInTechnicalMC/raw/main/' }
+        { name: 'Github Raw 国内访问速度可能较慢', baseUrl: 'https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' },
+        { name: '镜像站1 github.tbedu.top', baseUrl: 'https://github.tbedu.top/https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' },
+        { name: '镜像站2 gh.llkk.cc', baseUrl: 'https://gh.llkk.cc/https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' },
+        { name: '镜像站3 gh-proxy.com', baseUrl: 'https://gh-proxy.com/https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' },
+        { name: '镜像站4 github.7boe.top', baseUrl: 'https://github.7boe.top/https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' },
+        { name: '镜像站5 fastgit.cc', baseUrl: 'https://fastgit.cc/https://github.com/SDU-Little-River/SDUcraft-docs/raw/main/docs/' }
     ];
 
     const modalContent = mirrors.map(mirror => {

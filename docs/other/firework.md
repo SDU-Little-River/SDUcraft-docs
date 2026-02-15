@@ -29,5 +29,3 @@ tweakeroo和tweakermore中各类禁用粒子的选项关闭
 
 tweakermore中的粒子上限高于26w
 ![img_5.png](image/img_5.png)
-
-## 3.观看位置
