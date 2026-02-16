@@ -4,6 +4,8 @@ author@xhbsh
 
 由于烟花表演的粒子过多,必须安装优化mod,否则无法获得正常的观看体验
 
+**请关闭光影观看**
+
 ## 1.模组安装
 下载链接 [[AsyncParticles mod|other/mod/AsyncParticles-6.3.0+1.21.8.jar]]
 
@@ -27,5 +29,10 @@ author@xhbsh
 tweakeroo和tweakermore中各类禁用粒子的选项关闭
 ![img_4.png](image/img_4.png)
 
+伽马修改开启
+![img.png](image/img6.png)
+
 tweakermore中的粒子上限高于26w
 ![img_5.png](image/img_5.png)
+
+
